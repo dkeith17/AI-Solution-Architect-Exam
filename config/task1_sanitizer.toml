@@ -1,0 +1,22 @@
+# Task 1 sanitizer policy. Point the server at this file with:
+#   $env:QUILR_T1_CONFIG = "config\task1_sanitizer.toml"
+#
+# Sanitizable content (control characters, ANSI escapes, invisible/bidi/tag
+# characters, look-alike forms, whitespace) is always cleaned and logged.
+# The settings below decide what happens to content that cannot be sanitized
+# without changing its meaning: suspected code-injection patterns.
+#   "reject" -> the tool call fails with JSON-RPC -32602 (logged)
+#   "allow"  -> the value passes through unchanged (logged)
+
+[sanitizer]
+default_action = "reject"
+max_string_length = 4096
+
+[sanitizer.categories]
+prompt_injection   = "reject"
+sql_injection      = "reject"
+command_injection  = "reject"
+path_traversal     = "reject"
+template_injection = "reject"
+script_injection   = "reject"
+jsonrpc_smuggling  = "reject"

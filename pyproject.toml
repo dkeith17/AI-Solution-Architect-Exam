@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "quilr-sa-exam"
+version = "1.0.0"
+description = "QuilrAI Solution Architect practical exam: MCP server, MCP gateway, LLM streaming guardrail, LLM rate limiting and failover"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "mcp==2.3.0",        # official MCP Python SDK, v2 stable line
+    # Used directly by this code; all are already dependencies of mcp 2.3.0,
+    # listed explicitly so the project does not rely on transitive installs.
+    "anyio",
+    "httpx2",
+    "pydantic>=2.12",
+    "pyjwt",
+    "starlette",
+    "uvicorn",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src", "."]
+addopts = "-ra"
+markers = [
+    "integration: starts real servers as subprocesses on localhost (slower)",
+]
